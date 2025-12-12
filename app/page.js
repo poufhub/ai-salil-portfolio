@@ -274,7 +274,7 @@ export default function AISalilChatSecure() {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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'
+          'Authorization': 'Bearer ${process.env.GROQ_API_KEY}'
         },
         body: JSON.stringify({
           model: 'llama-3.3-70b-versatile',
