@@ -270,26 +270,23 @@ export default function AISalilChatSecure() {
     const fullContext = buildFullContext();
 
     try {
-      const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer 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'
-        },
-        body: JSON.stringify({
-          model: 'llama-3.3-70b-versatile',
-          max_tokens: 600,
-          temperature: 0.7,
-          messages: [
-            { role: 'system', content: fullContext },
-            ...conversationHistory,
-            userMessage
-          ].map(m => ({
-            role: m.role === 'assistant' ? 'assistant' : 'user',
-            content: m.content
-          }))
-        })
-      });
+  const groqResponse = await fetch('/api/groq', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model: 'llama-3.3-70b-versatile',
+      max_tokens: 600,
+      temperature: 0.7,
+      messages: [
+        { role: 'system', content: fullContext },
+        ...conversationHistory,
+        userMessage
+      ].map(m => ({
+        role: m.role === 'assistant' ? 'assistant' : 'user',
+        content: m.content
+      }))
+    }),
+  });
 
       if (!groqResponse.ok) throw new Error('Groq API failed');
 
