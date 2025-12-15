@@ -146,6 +146,8 @@ export default function AISalilChatSecure() {
   useEffect(() => {
     loadAdditionalInfo();
     loadUploadedFiles();
+    // Auto-focus input on page load
+    setTimeout(() => inputRef.current?.focus(), 300);
   }, []);
 
   const loadAdditionalInfo = async () => {
@@ -579,14 +581,14 @@ export default function AISalilChatSecure() {
 
   // Chat View
   return (
-    <div className={`flex flex-col h-screen ${bgClass} font-sans`}>
+    <div className={`flex flex-col h-screen ${bgClass} font-sans overflow-hidden`}>
       {/* Header */}
-      <div className={`${cardBg} px-6 py-4 border-b flex justify-between items-center backdrop-blur-xl`}>
+      <div className={`${cardBg} px-4 sm:px-6 py-3 sm:py-4 border-b flex justify-between items-center backdrop-blur-xl flex-shrink-0`}>
         <div>
-          <h1 className={`text-lg font-semibold ${textPrimary} tracking-tight`}>Salil Shahane</h1>
-          <p className={`text-xs ${textSecondary}`}>AI Assistant • Usually replies instantly</p>
+          <h1 className={`text-lg sm:text-lg font-semibold ${textPrimary} tracking-tight`}>Salil Shahane</h1>
+          <p className={`text-xs ${textSecondary}`}>AI Assistant</p>
         </div>
-        <div className="flex gap-3 items-center">
+        <div className="flex gap-2 sm:gap-3 items-center">
           <button
             onClick={() => setDarkMode(!darkMode)}
             className={`${textSecondary} hover:${textPrimary} transition-colors p-2 rounded-lg hover:bg-slate-700/20`}
@@ -605,44 +607,44 @@ export default function AISalilChatSecure() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-6">
-        <div className="max-w-3xl mx-auto space-y-4">
+      <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-4 sm:py-6 min-h-0">
+        <div className="max-w-3xl mx-auto space-y-4 sm:space-y-4 pb-4">
           {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              className={`flex gap-2 sm:gap-3 ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
               {message.role === 'assistant' && (
-                <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-1 shadow-lg">
-                  <Bot className="w-5 h-5 text-white" />
+                <div className="w-11 h-11 sm:w-9 sm:h-9 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center flex-shrink-0 mt-1 shadow-lg">
+                  <Bot className="w-6 h-6 sm:w-5 sm:h-5 text-white" />
                 </div>
               )}
               <div
-                className={`rounded-2xl px-4 py-3 max-w-md shadow-lg ${
+                className={`rounded-2xl px-5 py-3.5 sm:px-4 sm:py-3 max-w-[80%] sm:max-w-md shadow-lg ${
                   message.role === 'user'
                     ? `${messageBubbleUser} text-white rounded-tr-md`
                     : `${messageBubbleBot} ${textPrimary} rounded-tl-md border ${darkMode ? 'border-slate-600' : 'border-purple-100'}`
                 }`}
               >
-                <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
+                <p className="text-[17px] sm:text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
               </div>
               {message.role === 'user' && (
-                <div className={`w-9 h-9 rounded-2xl ${darkMode ? 'bg-slate-700' : 'bg-purple-200'} flex items-center justify-center flex-shrink-0 mt-1 shadow-lg`}>
-                  <User className={`w-5 h-5 ${darkMode ? 'text-slate-300' : 'text-purple-600'}`} />
+                <div className={`w-11 h-11 sm:w-9 sm:h-9 rounded-2xl ${darkMode ? 'bg-slate-700' : 'bg-purple-200'} flex items-center justify-center flex-shrink-0 mt-1 shadow-lg`}>
+                  <User className={`w-6 h-6 sm:w-5 sm:h-5 ${darkMode ? 'text-slate-300' : 'text-purple-600'}`} />
                 </div>
               )}
             </div>
           ))}
           {isLoading && (
-            <div className="flex gap-3">
-              <div className="w-9 h-9 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg">
-                <Bot className="w-5 h-5 text-white" />
+            <div className="flex gap-2 sm:gap-3">
+              <div className="w-11 h-11 sm:w-9 sm:h-9 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-600 flex items-center justify-center flex-shrink-0 shadow-lg">
+                <Bot className="w-6 h-6 sm:w-5 sm:h-5 text-white" />
               </div>
               <div className={`${messageBubbleBot} rounded-2xl rounded-tl-md px-5 py-4 shadow-lg border ${darkMode ? 'border-slate-600' : 'border-purple-100'}`}>
                 <div className="flex gap-1.5">
-                  <div className={`w-2 h-2 ${darkMode ? 'bg-slate-500' : 'bg-purple-400'} rounded-full animate-bounce`} style={{ animationDelay: '0ms' }}></div>
-                  <div className={`w-2 h-2 ${darkMode ? 'bg-slate-500' : 'bg-purple-400'} rounded-full animate-bounce`} style={{ animationDelay: '150ms' }}></div>
-                  <div className={`w-2 h-2 ${darkMode ? 'bg-slate-500' : 'bg-purple-400'} rounded-full animate-bounce`} style={{ animationDelay: '300ms' }}></div>
+                  <div className={`w-2.5 h-2.5 ${darkMode ? 'bg-slate-500' : 'bg-purple-400'} rounded-full animate-bounce`} style={{ animationDelay: '0ms' }}></div>
+                  <div className={`w-2.5 h-2.5 ${darkMode ? 'bg-slate-500' : 'bg-purple-400'} rounded-full animate-bounce`} style={{ animationDelay: '150ms' }}></div>
+                  <div className={`w-2.5 h-2.5 ${darkMode ? 'bg-slate-500' : 'bg-purple-400'} rounded-full animate-bounce`} style={{ animationDelay: '300ms' }}></div>
                 </div>
               </div>
             </div>
@@ -651,24 +653,26 @@ export default function AISalilChatSecure() {
         </div>
       </div>
 
-      {/* Input */}
-      <div className={`${cardBg} px-4 py-4 border-t backdrop-blur-xl`}>
-        <div className="max-w-3xl mx-auto flex gap-3 items-end">
+      {/* Input - Always visible at bottom */}
+      <div className={`${cardBg} px-3 sm:px-4 py-4 sm:py-4 border-t backdrop-blur-xl flex-shrink-0`}>
+        <div className="max-w-3xl mx-auto flex gap-2 sm:gap-3 items-end">
           <input
+            ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Ask me anything..."
-            className={`flex-1 px-5 py-3.5 ${inputBg} rounded-2xl focus:outline-none focus:ring-2 focus:ring-violet-500 text-sm placeholder-opacity-50 shadow-lg transition-all`}
+            autoFocus
+            className={`flex-1 px-5 sm:px-5 py-4 sm:py-3.5 text-[17px] sm:text-sm ${inputBg} rounded-2xl focus:outline-none focus:ring-2 focus:ring-violet-500 placeholder-opacity-50 shadow-lg transition-all`}
             disabled={isLoading}
           />
           <button
             onClick={handleSend}
             disabled={!input.trim() || isLoading}
-            className="bg-gradient-to-r from-violet-600 to-purple-600 text-white p-3.5 rounded-2xl hover:from-violet-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+            className="bg-gradient-to-r from-violet-600 to-purple-600 text-white p-4 sm:p-3.5 rounded-2xl hover:from-violet-700 hover:to-purple-700 transition-all disabled:opacity-50 disabled:cursor-not-allowed shadow-lg hover:shadow-xl flex-shrink-0"
           >
-            <Send className="w-5 h-5" />
+            <Send className="w-6 h-6 sm:w-5 sm:h-5" />
           </button>
         </div>
       </div>
