@@ -141,6 +141,7 @@ export default function AISalilChatSecure() {
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const messagesEndRef = useRef(null);
   const fileInputRef = useRef(null);
+  const inputRef = useRef(null);
 
   useEffect(() => {
     loadAdditionalInfo();
@@ -269,7 +270,27 @@ export default function AISalilChatSecure() {
     const conversationHistory = messages.filter(m => m.role !== 'assistant' || m.content !== messages[0].content);
     const fullContext = buildFullContext();
 
-try { const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer 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' }, body: JSON.stringify({ model: 'llama-3.3-70b-versatile', max_tokens: 600, temperature: 0.7, messages: [ { role: 'system', content: fullContext }, ...conversationHistory, userMessage ].map(m => ({ role: m.role === 'assistant' ? 'assistant' : 'user', content: m.content })) }) });
+    try {
+      const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer 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'
+        },
+        body: JSON.stringify({
+          model: 'llama-3.3-70b-versatile',
+          max_tokens: 600,
+          temperature: 0.7,
+          messages: [
+            { role: 'system', content: fullContext },
+            ...conversationHistory,
+            userMessage
+          ].map(m => ({
+            role: m.role === 'assistant' ? 'assistant' : 'user',
+            content: m.content
+          }))
+        })
+      });
 
       if (!groqResponse.ok) throw new Error('Groq API failed');
 
@@ -321,6 +342,8 @@ try { const groqResponse = await fetch('https://api.groq.com/openai/v1/chat/comp
       }
     } finally {
       setIsLoading(false);
+      // Auto-focus input after sending
+      setTimeout(() => inputRef.current?.focus(), 100);
     }
   };
 
